@@ -44,17 +44,22 @@ https://192.168.1.110:30080
 ```
 k8s-onprem-HA/
 │── README.md
-│── docs/
-│     ├── architecture.png
-│     ├── setup-notes.md
-│── manifests/
-│     ├── namespaces/
-│     ├── deployments/
-│     ├── services/
-│     ├── ingress/
-│── rancher/
-│     ├── docker-install.sh
-│     ├── rancher-values.yaml
+│── infrastructure
+│     ├── manifests/
+│         ├── namespaces/
+|             ├── ecommerce
+│         ├── deployments/
+|             ├── ecommerce-frontend-deplpoyment
+|             ├── ecommerce-backend-deployment    
+│         ├── services/
+|             ├── ecommerce-frontend-service 
+|             ├── ecommerce-backend-serivce 
+│         ├── ingress/
+|             ├── ecommerce-frontend-ingress 
+|             ├── ecommerce-backend-ingress
+│     ├──  rancher/
+│         ├── rancher-server.md
+│
 │── scripts/
 │     ├── init-master.sh
 │     ├── join-master.sh
