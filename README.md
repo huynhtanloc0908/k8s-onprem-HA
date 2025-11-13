@@ -1,6 +1,6 @@
-# 🚀 Kubernetes On-Premise HA Cluster (6 Nodes) Deployment
+![z7219351164600_b9847bb145a2a6fa1c24639a513de09d](https://github.com/user-attachments/assets/0e11ea50-dab8-4900-be78-a8ced70720b9)# 🚀 Kubernetes On-Premise HA Cluster (6 Nodes) Deployment
 
-Dự án triển khai **Kubernetes High Availability on-premise** với kiến trúc 3 master, load balancer HA, Rancher Server quản lý cluster và database server riêng. Dự án này phục vụ mục đích học tập & mô phỏng môi trường doanh nghiệp thực tế.
+Dự án triển khai **Kubernetes High Availability on-premise** với kiến trúc 3 master, load balancer Nginx, Rancher Server quản lý cluster và database server riêng. Dự án này phục vụ mục đích học tập & mô phỏng môi trường doanh nghiệp thực tế.
 
 ---
 
@@ -13,33 +13,31 @@ Cluster gồm 6 node vật lý:
 | Master 1 | Kubernetes Control Plane | 192.168.1.111 |
 | Master 2 | Kubernetes Control Plane | 192.168.1.112 |
 | Master 3 | Kubernetes Control Plane | 192.168.1.113 |
-| Load Balancer | HAProxy / Nginx LB cho API Server | 192.168.1.110 |
+| Load Balancer | Nginx LB cho API Server | 192.168.1.110 |
 | Rancher Server | UI quản lý Kubernetes | 192.168.1.114 |
-| Database Server | MariaDB / PostgreSQL (cho Rancher / App) | 192.168.1.115 |
+| Database Server | MariaDB (cho Rancher) | 192.168.1.115 |
 
 ### 🔗 Kết nối Control Plane thông qua Load Balancer
 API Server endpoint:
 ```
-https://192.168.1.110:6443
+https://192.168.1.110:80
 ```
 
 ### ☸️ Thành phần chính
-- Kubernetes: v1.xx.x (triển khai bằng kubeadm)
+- Kubernetes: v1.30.14 (triển khai bằng kubeadm)
 - Container Runtime: containerd
 - CNI: Calico (BGP mode)
-- Load Balancer: HAProxy / Nginx
+- Load Balancer: Nginx
 - Management UI: Rancher
-- Database: MariaDB / PostgreSQL
-- Monitoring stack: Prometheus + Grafana (optional)
-- Logging: Loki (optional)
+- Database: MariaDB 
 
 ---
+
 
 ## 🖼️ Sơ đồ kiến trúc (Architecture Diagram)
+<img width="1024" height="622" alt="Screenshot 2025-11-13 142117" src="https://github.com/user-attachments/assets/51db012b-cd01-4f75-b369-365c7165ad62" />
 
-*(Bạn thêm file PNG hoặc tui thiết kế cho bạn nếu muốn)*
 
----
 
 ## 📂 Cấu trúc thư mục repository
 
@@ -82,7 +80,7 @@ k8s-onprem-HA/
 ### 2️⃣ Init control plane qua Load Balancer
 ```
 kubeadm init \
- --control-plane-endpoint "192.168.1.110:6443" \
+ --control-plane-endpoint "192.168.1.110:80" \
  --upload-certs \
  --pod-network-cidr=192.168.0.0/16
 ```
@@ -102,18 +100,18 @@ kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 ---
 
 ## 🛠️ Cài đặt Load Balancer (HAProxy)
-File: `loadbalancer/haproxy.cfg`
+File: `loadbalancer/nginx.cfg`
 
 ```
 frontend kubernetes
-    bind *:6443
+    bind *:80
     default_backend k8s-masters
 
 backend k8s-masters
     balance roundrobin
-    server master1 192.168.1.111:6443 check
-    server master2 192.168.1.112:6443 check
-    server master3 192.168.1.113:6443 check
+    server master1 192.168.1.111:30080 check
+    server master2 192.168.1.112:30080 check
+    server master3 192.168.1.113:30080 check
 ```
 
 ---
@@ -128,25 +126,34 @@ docker run -d --restart=unless-stopped \
 ---
 
 ## 🗄️ Database Server (192.168.1.115)
-Ví dụ MariaDB:
-```
 sudo systemctl enable mariadb
 sudo systemctl start mariadb
 mysql_secure_installation
+## 📦 Triển khai ứng dụng ecommerce
 ```
-
----
-
-## 📦 Triển khai ứng dụng demo
+Build Images
+docker build -t ecommerce-frontend:v1 .
+docker build -t ecommerce-backend:v1 .
+Tag images lên dockerhub
+docker tag ecommerce-frontend:v1 locdevops/ecommerce-frontend:v1
+docker tag ecommerce-backend:v1 locdevops/ecommerce-backend:v1
 ```
-kubectl apply -f manifests/deployments/demo-app.yaml
-kubectl apply -f manifests/services/demo-service.yaml
+```
+Apply namespace ->  deployment -> service -> ingress
+kubectl create ns ecommerce
+kubectl apply -f manifests/deployments/ecommerce-frontend-deployment.yaml
+kubectl apply -f manifests/services/ecommercce-frontend-service.yaml
+kubectl apply -f manifests/ingress/ecommerce-frontend-ingress.yaml
+kubectl apply -f manifests/deployments/ecommerce-backend-deployment.yaml
+kubectl apply -f manifests/services/ecommerce-backend-service.yaml
+kubectl apply -f manifests/ingress/ecommerce-backend-ingress.yaml
+
 ```
 
 ---
 
 ## 📊 Kết quả đạt được
-- Triển khai thành công **Kubernetes HA cluster 3 master + load balancer**  
+- Triển khai thành công **Kubernetes HA cluster 1 master + 2 worker + load balancer**  
 - Rancher quản lý toàn bộ cluster  
 - Tự động hóa cài đặt thông qua script  
 - Tách biệt database riêng để mô phỏng môi trường enterprise  
@@ -154,7 +161,7 @@ kubectl apply -f manifests/services/demo-service.yaml
 ---
 
 ## 👤 Tác giả
-**Tên bạn**  
-📌 GitHub: https://github.com/your-username  
-📌 Email: your-email@example.com
+Huỳnh Tấn Lộc
+📌 GitHub: https://github.com/huynhtanloc0908  
+📌 Email: tanlochuynh112@gmail.com
 
