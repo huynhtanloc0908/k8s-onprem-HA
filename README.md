@@ -1,4 +1,4 @@
-![z7219351164600_b9847bb145a2a6fa1c24639a513de09d](https://github.com/user-attachments/assets/0e11ea50-dab8-4900-be78-a8ced70720b9)# 🚀 Kubernetes On-Premise HA Cluster (6 Nodes) Deployment
+# 🚀 Kubernetes On-Premise HA Cluster (6 Nodes) Deployment
 
 Dự án triển khai **Kubernetes High Availability on-premise** với kiến trúc 3 master, load balancer Nginx, Rancher Server quản lý cluster và database server riêng. Dự án này phục vụ mục đích học tập & mô phỏng môi trường doanh nghiệp thực tế.
 
