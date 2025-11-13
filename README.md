@@ -1,6 +1,6 @@
 # 🚀 Kubernetes On-Premise HA Cluster (6 Nodes) Deployment
 
-Dự án triển khai **Kubernetes High Availability on-premise** với kiến trúc 3 master, load balancer Nginx, Rancher Server quản lý cluster và database server riêng. Dự án này phục vụ mục đích học tập & mô phỏng môi trường doanh nghiệp thực tế.
+Dự án triển khai **Kubernetes High Availability on-premise** với kiến trúc 1 master và 2 worker, load balancer Nginx, Rancher Server quản lý cluster và database server riêng. Dự án này phục vụ mục đích học tập & mô phỏng môi trường doanh nghiệp thực tế.
 
 ---
 
@@ -46,6 +46,8 @@ k8s-onprem-HA/
 │── README.md
 │── infrastructure
 │     ├── manifests/
+|         ├── Install K8S
+|             ├── k8s.md  
 │         ├── namespaces/
 |             ├── ecommerce
 │         ├── deployments/
@@ -53,24 +55,24 @@ k8s-onprem-HA/
 |             ├── ecommerce-backend-deployment    
 │         ├── services/
 |             ├── ecommerce-frontend-service 
-|             ├── ecommerce-backend-serivce 
+|             ├── ecommerce-backend-serivce  
 │         ├── ingress/
 |             ├── ecommerce-frontend-ingress 
 |             ├── ecommerce-backend-ingress
-│     ├──  rancher/
-│         ├── rancher-server.md
-│
-│── scripts/
-│     ├── init-master.sh
-│     ├── join-master.sh
-│     ├── join-worker.sh
-│     ├── install-containerd.sh
-│── loadbalancer/
-│     ├── haproxy.cfg
-│     ├── nginx-lb.conf
-│── database/
-│     ├── create-db.sql
-│     ├── backup-script.sh
+│──  rancher/
+│      ├── rancher-server.md
+|── LoadBalancer
+|      ├── LoadBalancer-seriver.md
+├── database/
+|      ├──  Fullstack-Ecommerce-Web/
+|             ├──1-starter-files_db-scripts
+|             ├── 02-backend_spring-boot-rest-api
+|             ├── 03-frontend_angular-ecommerce
+├── Fullstack-Ecommerce-Web/
+|      ├── 01-starter-files_db-scripts
+|      ├── 02-backend_spring-boot-rest-api
+|      ├── 03-frontend_angular-ecommerce
+
 ```
 
 ---
