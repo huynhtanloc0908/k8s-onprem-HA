@@ -20,7 +20,7 @@ Cluster gồm 6 node vật lý:
 ### 🔗 Kết nối Control Plane thông qua Load Balancer
 API Server endpoint:
 ```
-https://192.168.1.110:80
+https://192.168.1.110:30080
 ```
 
 ### ☸️ Thành phần chính
@@ -80,14 +80,15 @@ k8s-onprem-HA/
 ### 2️⃣ Init control plane qua Load Balancer
 ```
 kubeadm init \
- --control-plane-endpoint "192.168.1.110:80" \
+ --control-plane-endpoint "192.168.1.111:30080" \
  --upload-certs \
  --pod-network-cidr=192.168.0.0/16
 ```
 
 ### 3️⃣ Join master 2 & master 3
 ```
-kubeadm join 192.168.1.110:6443 --control-plane --token <token> ...
+kubeadm join 192.168.1.112:30080 --control-plane --token <token> ...
+kubeadm join 192.168.1.113:30080 --control-plane --token <token> ...
 ```
 
 ---
@@ -99,7 +100,7 @@ kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 
 ---
 
-## 🛠️ Cài đặt Load Balancer (HAProxy)
+## 🛠️ Cài đặt Load Balancer (Nginx)
 File: `loadbalancer/nginx.cfg`
 
 ```
