@@ -156,10 +156,8 @@ kubectl apply -f manifests/deployments/ecommerce-backend-deployment.yaml
 kubectl apply -f manifests/services/ecommerce-backend-service.yaml
 kubectl apply -f manifests/ingress/ecommerce-backend-ingress.yaml
 
-<img width="1915" height="868" alt="Screenshot 2025-11-13 185559" src="https://github.com/user-attachments/assets/c1b476e0-3de3-4afe-aa6c-ae98169b2e14" />
-
 ```
-
+<img width="1915" height="868" alt="Screenshot 2025-11-13 185559" src="https://github.com/user-attachments/assets/c1b476e0-3de3-4afe-aa6c-ae98169b2e14" />
 
 
 ---
