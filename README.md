@@ -1,6 +1,6 @@
-# 🚀 Kubernetes On-Premise HA Cluster (6 Nodes) Deployment
+# 🚀 Kubernetes On-Premise Cluster (6 Nodes) Deployment
 
-Dự án triển khai **Kubernetes High Availability on-premise** với kiến trúc 1 master và 2 worker, load balancer Nginx, Rancher Server quản lý cluster và database server riêng. Dự án này phục vụ mục đích học tập & mô phỏng môi trường doanh nghiệp thực tế.
+Dự án triển khai **Kubernetes on-premise** với kiến trúc 1 master và 2 worker, load balancer Nginx, Rancher Server quản lý cluster và database server riêng. Dự án này phục vụ mục đích học tập & mô phỏng môi trường doanh nghiệp thực tế.
 
 ---
 
